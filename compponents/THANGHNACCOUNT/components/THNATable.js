@@ -232,9 +232,7 @@ class THNATable extends Component {
   render() {
     const { data, pages, pagesize } = this.state;
     var that = this;
-    console.log("table", this.props);
-    console.log("state", this.state);
-
+    console.log("state table", this.state);
     return (
       <div>
         <div className="row">
@@ -393,12 +391,12 @@ class THNATable extends Component {
               },
               {
                 Header: (props) => (
-                  <div className="wordwrap" id="type">
-                    {this.props.strings.type}
+                  <div className="wordwrap" id="TYPE">
+                    {this.props.strings.TYPE}
                   </div>
                 ),
-                id: "type",
-                accessor: "type",
+                id: "TYPE",
+                accessor: "TYPE",
                 width: 300,
                 Cell: ({ value }) => (
                   <div

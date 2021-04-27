@@ -18,7 +18,7 @@ class THNAModalDetail_info extends Component {
         p_autoid: "",
         p_custodycd: "",
         p_fullname: "",
-        P_BIRTHDATE: "",
+        p_BIRTHDATE: "",
         p_address: "",
         p_account: "",
         p_type: "TK",
@@ -29,7 +29,7 @@ class THNAModalDetail_info extends Component {
       checkFields: [
         { name: "p_custodycd", id: "txtcustodycd" },
 
-        { name: "p_ACCOUNT", id: "txtACCOUNT" },
+        { name: "p_account", id: "txtaccount" },
       ],
       isDone: true,
     };
@@ -48,14 +48,15 @@ class THNAModalDetail_info extends Component {
       this.setState({
         datagroup: {
           p_autoid: nextProps.DATA.AUTOID,
-          p_custodycd: nextProps.DATA.custodycd,
-          p_fullname: nextProps.DATA.fullname,
-          P_BIRTHDATE: nextProps.DATA.BIRTHDATE,
-          p_address: nextProps.DATA.ADDRESS,
+          p_custodycd: nextProps.DATA.CUSTODYCD,
+          p_fullname: nextProps.DATA.FULLNAME,
+          p_BIRTHDATE: nextProps.DATA.BIRTHDATE,
+          p_address: nextProps.DATA.IDPLACE,
           p_account: nextProps.DATA.ACCOUNT,
           p_type: nextProps.DATA.TYPE,
           p_balance: nextProps.DATA.BALANCE,
         },
+
         access: nextProps.access,
         isDone: true,
       });
@@ -72,7 +73,6 @@ class THNAModalDetail_info extends Component {
           p_type: "",
           p_balance: "0",
           p_autoid: "",
-
           pv_language: this.props.lang,
           pv_objname: this.props.OBJNAME,
         },
@@ -84,6 +84,7 @@ class THNAModalDetail_info extends Component {
     }
   }
   componentDidMount() {
+ 
     window.$("#txtcustodycd").focus();
   }
   handleChange(type) {
@@ -123,14 +124,14 @@ class THNAModalDetail_info extends Component {
     }
     if (type == "p_type") {
       if (this.state.datagroup["p_type"] === "TT") {
-        this.state.datagroup["p_BALANCE"] = "0";
+        this.state.datagroup["p_balance"] = "0";
         this.setState(this.state);
       } else {
-        this.state.datagroup["p_BALANCE"] = event.p_balance;
+        this.state.datagroup["p_balance"] = event.p_balance;
         this.setState(this.state);
       }
     }
-    if (type == "p_BALANCE") {
+    if (type == "p_balance") {
       const temp = Number(event.target.value);
       if (temp >= 0) {
         this.state.datagroup[type] = event.target.value;
@@ -163,15 +164,17 @@ class THNAModalDetail_info extends Component {
         content: "",
       };
       let data2 = this.state.datagroup;
+
       let data = {
         p_autoid: data2.p_autoid,
         p_custodycd: data2.p_custodycd,
         p_fullname: data2.p_fullname,
         p_BIRTHDATE: data2.BIRTHDATE,
-        p_address: data2.p_address,
-        p_account: data2.p_ACCOUNT,
+
+        p_address: data2.idplace,
+        p_account: data2.p_account,
         p_type: data2.p_type,
-        p_balance: data2.p_BALANCE,
+        p_balance: data2.p_balance,
         pv_objname: this.props.OBJNAME,
         pv_action: this.state.access,
         pv_language: this.props.lang,
@@ -200,7 +203,7 @@ class THNAModalDetail_info extends Component {
           mssgerr = this.props.strings.requiredcustodycd;
         }
         break;
-      case "p_ACCOUNT":
+      case "p_account":
         if (parseFloat("value") < 0) {
           // lấy value dạng số
           mssgerr = this.props.strings.requiredACCOUNT;
@@ -225,24 +228,7 @@ class THNAModalDetail_info extends Component {
   render() {
     var cdname = "";
     var displayyADDRESS = false;
-
-    if (
-      (this.state.datagroup["p_custtype"] == "" ||
-        this.state.datagroup["p_custtype"] == "CN") &&
-      (this.state.datagroup["p_grinvestor"] == "" ||
-        this.state.datagroup["p_grinvestor"] == "TN")
-    ) {
-      cdname = "ADDRESSTNCN";
-    } else if (
-      this.state.datagroup["p_custtype"] == "TC" &&
-      this.state.datagroup["p_grinvestor"] == "TN"
-    ) {
-      cdname = "ADDRESSTKSD";
-      displayyADDRESS = true;
-    } else if (this.state.datagroup["p_grinvestor"] == "NN") {
-      cdname = "ADDRESSTKSD";
-      displayyADDRESS = true;
-    }
+    console.log("oooooooooooooooooooooooooo", this.state.datagroup);
 
     return (
       <Modal show={this.props.showModalDetail}>
@@ -339,7 +325,7 @@ class THNAModalDetail_info extends Component {
                       className="form-control"
                       type="text"
                       placeholder={this.props.strings.ADDRESS}
-                      id="p_ADDRESS"
+                      id="p_address"
                       value={this.state.datagroup["p_address"]}
                       onChange={this.onChange.bind(this, "p_address")}
                       disabled
@@ -358,9 +344,9 @@ class THNAModalDetail_info extends Component {
                       className="form-control"
                       type="text"
                       placeholder={this.props.strings.ACCOUNT}
-                      id="ACCOUNT"
-                      value={this.state.datagroup["p_ACCOUNT"]}
-                      onChange={this.onChange.bind(this, "p_ACCOUNT")}
+                      id="p_account"
+                      value={this.state.datagroup["p_account"]}
+                      onChange={this.onChange.bind(this, "p_account")}
                     />
                   </div>
                 </div>
@@ -385,6 +371,7 @@ class THNAModalDetail_info extends Component {
                         type="radio"
                         name="radio"
                         value="TK"
+                        //value={this.state.datagroup["p_type"]}
                         checked={
                           this.state.datagroup["p_type"] === "TK" ? true : false
                         }
@@ -400,6 +387,7 @@ class THNAModalDetail_info extends Component {
                         name="radio"
                         value="TT"
                         name="type"
+                        //value={this.state.datagroup["p_type"]}
                         checked={
                           this.state.datagroup["p_type"] === "TT" ? true : false
                         }
@@ -410,15 +398,7 @@ class THNAModalDetail_info extends Component {
                   </div>
                 </div>
 
-                <div
-                  className="col-md-12 row  "
-                  // disabled={{
-                  //   display:
-                  //     this.state.datagroup["p_type"] === "TT"
-                  //       ? "none"
-                  //       : "block",
-                  // }}
-                >
+                <div className="col-md-12 row  ">
                   <div className="col-md-3">
                     <h5>
                       <b>{this.props.strings.BALANCE}</b>
@@ -433,9 +413,9 @@ class THNAModalDetail_info extends Component {
                       className="form-control"
                       type="text"
                       placeholder={this.props.strings.BALANCE}
-                      id="BALANCE"
-                      value={this.state.datagroup["p_BALANCE"]}
-                      onChange={this.onChange.bind(this, "p_BALANCE")}
+                      id="p_balance"
+                      value={this.state.datagroup["p_balance"]}
+                      onChange={this.onChange.bind(this, "p_balance")}
                     />
                   </div>
                 </div>
